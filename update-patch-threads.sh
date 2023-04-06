@@ -11,20 +11,22 @@ for item in `find $path -name "*.mbx"`; do
 	name=${base%.mbx*}
 	dir=`dirname $item`
 
-	echo b4 mbox $name
-	pwd=`pwd`
+	#echo b4 mbox $name 2>&1 1>&/dev/null
+	cur=`pwd`
 	cd /tmp/
 	rm -f $base
-	b4 mbox $name
+	b4 mbox $name 2>&1 1>&/dev/null
 	if [ ! -f $base ];then
+		cd $cur
 		continue
 	fi
-	cd $pwd
+	cd $cur
 	if cmp --silent -- "$item" "/tmp/$base"; then
-		echo "thread $name is up-to-date"
+		#echo "thread $name is up-to-date"
 		rm /tmp/$base
 	else
 		echo "updating $name"
+		#echo mv -f /tmp/$base $item
 		mv -f /tmp/$base $item
 	fi
 	echo

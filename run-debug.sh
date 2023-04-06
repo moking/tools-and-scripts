@@ -2,16 +2,27 @@
 #KERNEL_PATH=${2}
 #QEMU_IMG=${3}
 
-
-QEMU=/root/CXL/qemu/build/qemu-system-x86_64
-KERNEL_PATH=/root/CXL/linux/arch/x86/boot/bzImage
-if  [ "$2" == "dan" ];then
-	KERNEL_PATH=/root/CXL/cxl/arch/x86/boot/bzImage
+if [ "$QEMU_ROOT" == "" ];then
+	QEMU=/root/CXL/qemu/build/qemu-system-x86_64
 else
-	KERNEL_PATH=/home/fan/kernel-fixes/arch/x86/boot/bzImage
+	QEMU=/$QEMU_ROOT/build/qemu-system-x86_64
 fi
+
+if [ "$KERNEL_ROOT" == "" ];then
+	KERNEL_PATH=/home/fan/kernel-fixes/arch/x86/boot/bzImage
+else
+	KERNEL_PATH=$KERNEL_ROOT/arch/x86/boot/bzImage
+fi
+
+echo $QEMU
+echo $KERNEL_PATH
+
 QEMU_IMG=qemu-image.qcow2
-QEMU_IMG=qemu-image-latest.qcow2
+if [ "$IMG_ROOT" == "" ];then
+	QEMU_IMG=qemu-image-latest.qcow2
+else
+	QEMU_IMG=$IMG_ROOT/qemu-image-latest.qcow2
+fi
 
 rm -f /tmp/lsa*
 rm -f /tmp/cxltest*
@@ -167,7 +178,7 @@ fi
 ${QEMU} -s \
 	-kernel ${KERNEL_PATH} \
 	-append "${KERNEL_CMD}" \
-	-smp 16 \
+	-smp 1 \
 	${SHARED_CFG}\
 	-netdev "user,id=network0,hostfwd=tcp::2024-:22" \
 	-drive file=${QEMU_IMG},index=0,media=disk,format=qcow2 \
@@ -179,6 +190,4 @@ ${QEMU} -s \
 	-display none \
 	-virtfs local,path=/lib/modules,mount_tag=modshare,security_model=mapped \
 	-virtfs local,path=/home/fan,mount_tag=homeshare,security_model=mapped \
-	-virtfs local,path=/root/Mail,mount_tag=mailshare,security_model=mapped \
-	${NVME_CONFIG} \
 	$CONF
