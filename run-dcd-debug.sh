@@ -40,11 +40,11 @@ NVME_CONFIG="-device pxb-pcie,id=pcie.1,bus_nr=150 \
 			 -drive file=nvm.img,if=none,id=nvm0,format=raw"
 
 RP1="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=512M \
-	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest.raw,size=512M \
+	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest-dcd.raw,size=1024M \
      -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
      -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
      -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-     -device cxl-dcd,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,dcmemdev=cxl-mem2,id=cxl-pmem0 \
+     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,dc-memdev=cxl-mem2,id=cxl-pmem0,num-dc-regions=1\
      -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
 
 M2="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
