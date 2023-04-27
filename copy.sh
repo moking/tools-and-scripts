@@ -1,7 +1,12 @@
 #! /bin/bash
 rhost='nifan@192.168.64.153'
+rhost='nifan@bgt140507bm02.dtc.local'
+
 if [ "$#" -lt 2 ];then
 	echo not enough parameters, exit
+	echo Usage: $0 [-f/-t] dir1 dir2
+	echo -e "\t -f: copy from rhost to local"
+	echo -e "\t -t: copy from local to rhost (by default)"
 	exit
 fi
 if [ "$1" == "-f" ];then
