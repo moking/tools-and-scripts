@@ -1,8 +1,11 @@
 #! /bin/bash 
 
-YCSB_ROOT=/home/fan/cxl/ycsb/YCSB
-REDIS_ROOT=/home/fan/cxl/ycsb
-
+if [ "YCSB_ROOT" == "" ];then
+	YCSB_ROOT=/home/fan/cxl/ycsb/YCSB
+fi
+if [ "REDIS_ROOT" == "" ];then
+	REDIS_ROOT=/home/fan/cxl/ycsb
+fi
 YCSB_BIN=$YCSB_ROOT/bin/ycsb.sh
 redis_sh=$REDIS_ROOT/create-redis-cluster.sh
 
