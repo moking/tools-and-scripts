@@ -64,6 +64,10 @@ if [ `echo $1 | grep -c workload` -gt 0 ];then
 	if [ "$3" != "" ]; then
 		operationcount=$3
 	fi
+	if [ "$4" != "" ]; then
+		cpus=$4
+		threads=$4
+	fi
 else
 	Error "\n   usage: $0 workload recordcount operationcount"
 	exit
@@ -73,7 +77,7 @@ workload_file=/tmp/$workload
 output_file=/tmp/redis.txt
 echo > $output_file
 
-msizes=100
+msizes=1000
 
 for ms in $msizes; do
 
