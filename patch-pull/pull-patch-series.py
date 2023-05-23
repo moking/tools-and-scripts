@@ -4,8 +4,13 @@ import os
 from bs4 import BeautifulSoup
 import subprocess
 import re
+import logging
 
 import argparse
+
+logger=logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 
 parser = argparse.ArgumentParser(description='A tool helping pull patches')
 parser.add_argument('-u','--url', help='url to pull', required=False)
@@ -27,6 +32,12 @@ else:
 path="/tmp/patches"
 if args['dir']:
     path = args['dir']
+
+log_file='/tmp/patch-pull.log'
+os.system('mv %s %s'%(log_file, log_file+".bak"))
+fh=logging.FileHandler(log_file)
+fh.setLevel(logging.DEBUG)
+logger.addHandler(fh)
 
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -65,6 +76,9 @@ while cnt < num_record:
         i+=1;
         continue;
 
+    info="%s \t:\t %s"%(title, url)
+    logger.info(info)
+
     url=url.split("/")
     print("Pulling messages:\n"+
           "\tid: %s\n\t%s"%(url[0], titles[i]))
@@ -76,4 +90,8 @@ while cnt < num_record:
     cnt=cnt+1
     i=i+1
 
-print("Info: check patches in %s"%path)
+print("Info: check patches in %s\n"%path)
+print("Check pull log at %s:\n"%log_file)
+cmd='cat %s | grep "\t:\t"'%log_file
+os.system(cmd)
+print("")
