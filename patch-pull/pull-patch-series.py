@@ -50,6 +50,11 @@ while cnt < num_record:
     url=urls[i]
     title=titles[i]
     result = re.search('\[(.*?)\]', title)
+    if result is None:
+        print(title)
+        cnt=cnt+1
+        i=i+1
+        continue
     patch = result.group(1)
     try:
         idx = int(patch.split()[-1].split("/")[0])
