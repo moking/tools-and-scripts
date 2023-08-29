@@ -108,6 +108,7 @@ ${QEMU} \
 	-kernel ${KERNEL_PATH} \
 	-append "\"${KERNEL_CMD}\"" \
 	-smp 1 \
+    -accel tcg \
 	${SHARED_CFG}\
 	-netdev "user,id=network0,hostfwd=tcp::2024-:22" \
 	-drive file=${QEMU_IMG},index=0,media=disk,format=qcow2 \

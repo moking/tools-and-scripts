@@ -39,20 +39,28 @@ NVME_CONFIG="-device pxb-pcie,id=pcie.1,bus_nr=150 \
 			 -device ioh3420,id=rp1,bus=pcie.1 \
 			 -drive file=nvm.img,if=none,id=nvm0,format=raw"
 RP1_DCD="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=512M \
-	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest-dcd.raw,size=2048M \
+	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=2048M \
+	 -object memory-backend-file,id=cxl-dcd0,share=on,mem-path=/tmp/cxltest-dcd.raw,size=4096M \
      -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
+     -object memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa2.raw,size=512M \
      -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
      -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,dc-memdev=cxl-mem2,id=cxl-pmem0,num-dc-regions=2\
+     -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
+     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,nonvolatile-dc-memdev=cxl-dcd0,volatile-memdev=cxl-mem2,id=cxl-dcd0,num-dc-regions=2\
      -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
 
-
-RP1="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=512M \
-	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest-dcd.raw,size=1024M \
+RP1_R="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest-dcd.raw,size=4096M \
      -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
      -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
      -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,dc-memdev=cxl-mem2,id=cxl-pmem0,num-dc-regions=1\
+     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-dcd0,num-dc-regions=2\
+     -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
+
+RP1="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest-dcd.raw,size=4096M \
+     -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
+     -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+     -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+     -device cxl-type3,bus=root_port13,lsa=cxl-lsa1,nonvolatile-dc-memdev=cxl-mem1,id=cxl-dcd0,num-dc-regions=2\
      -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
 
 M2="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=256M \
@@ -169,6 +177,8 @@ if [ "$1" == "sw" ];then
   CONF=$SW
 elif [ "$1" == "rp1" ];then
   CONF=$RP1
+elif [ "$1" == "rp1r" ];then
+    CONF=$RP1_R
 elif [ "$1" == "rp1-dcd" ];then
   CONF=$RP1_DCD
 elif [ "$1" == "hb2" ];then

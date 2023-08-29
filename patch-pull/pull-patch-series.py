@@ -62,7 +62,7 @@ while cnt < num_record:
     title=titles[i]
     result = re.search('\[(.*?)\]', title)
     if result is None:
-        print(title)
+        print("Not collected: ", title, url)
         cnt=cnt+1
         i=i+1
         continue
@@ -76,12 +76,12 @@ while cnt < num_record:
         i+=1;
         continue;
 
-    info="%s \t:\t %s"%(title, url)
+    info="%s \t:\n\t %s"%(title, url)
     logger.info(info)
 
     url=url.split("/")
     print("Pulling messages:\n"+
-          "\tid: %s\n\t%s"%(url[0], titles[i]))
+          "\tid: %s\n\t\t%s"%(url[0], titles[i]))
     cmd = "b4 mbox %s -o %s"%(url[0],path)
     print(cmd)
     os.system(cmd)
@@ -92,6 +92,6 @@ while cnt < num_record:
 
 print("Info: check patches in %s\n"%path)
 print("Check pull log at %s:\n"%log_file)
-cmd='cat %s | grep "\t:\t"'%log_file
+cmd='cat %s | grep "\t:\n\t"'%log_file
 os.system(cmd)
 print("")
