@@ -28,8 +28,11 @@ gen_workload() {
 
 	echo "# workload:"
 	cat $w | grep -v "^#" | grep -v "^$"
-	echo recordcount $2
-	echo operationcount $3
+	echo recordcount=$2
+	echo operationcount=$3
+    echo requestdistribution=$4
+    echo fieldcount=10
+    echo fieldlength=100
 	echo 
 }
 
@@ -48,13 +51,15 @@ fi
 
 
 msizes='100 200 500 1000'
-cpus=2
-num_ins=2
+cpus=16
+num_ins=3
 recordcount=1000
 operationcount=1000
 threads=16
 
 workload="workloada"
+dist="zipfian"
+node_id=0
 
 if [ `echo $1 | grep -c workload` -gt 0 ];then
 	workload=$1
@@ -68,8 +73,14 @@ if [ `echo $1 | grep -c workload` -gt 0 ];then
 		cpus=$4
 		threads=$4
 	fi
+	if [ "$5" != "" ]; then
+        dist=$5
+    fi
+	if [ "$6" != "" ]; then
+        node_id=$6
+    fi
 else
-	Error "\n   usage: $0 workload recordcount operationcount"
+	Error "\n   usage: $0 workload recordcount operationcount distribution"
 	exit
 fi
 
@@ -77,59 +88,55 @@ workload_file=/tmp/$workload
 output_file=/tmp/redis.txt
 echo > $output_file
 
-msizes=1000
+msizes=5000
+ms=0
 
-for ms in $msizes; do
+for node_id in 0 1 2; do
 
-	gen_workload $YCSB_ROOT/workloads/$workload $recordcount $operationcount >$workload_file
+	gen_workload $YCSB_ROOT/workloads/$workload $recordcount $operationcount $dist >$workload_file
+    echo "workload: "
+    cat $workload_file
 
-	create_redis_cluster $ms $cpus 2
+	create_redis_cluster $ms $cpus $num_ins $node_id
 
 	echo "load data"
 	echo $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads 
-	$YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads > /dev/null
+	numactl --membind=$node_id $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads > /dev/null
 	sleep 2
 
-	echo "OUTPUT: memory $(($ms)) node 2" | tee -a $output_file
+    echo "*********Node $node_id test start*****************" | tee -a $output_file 
+    echo "workload: $workload" | tee -a $output_file
+    cat $workload_file | tee -a $output_file 
+    echo "********Before test************" | tee -a $output_file 
+    i=1
+    while [ $i -le $num_ins ];do 
+        docker exec -it redis-$i redis-cli info | grep human | tee -a $output_file
+        i=$(($i+1))
+        echo | tee -a $output_file
+    done
+    numastat | tee -a $output_file
+
+	echo "OUTPUT: memory $(($ms)) node $num_ins" | tee -a $output_file
 echo "*********************" | tee -a $output_file
 	echo $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads
-	$YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads \
+	numactl --membind=$node_id $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads \
 		| grep -A 50 "OVERALL" \
 		| grep -v "TOTAL_GC" \
 		| tee -a $output_file
-echo "*********************" | tee -a $output_file
 
-	create_redis_cluster $(($ms*2)) $cpus 2
+    echo "********After test************" | tee -a $output_file 
+    i=1
+    while [ $i -le $num_ins ];do 
+        docker exec -it redis-$i redis-cli info | grep human | tee -a $output_file
+        i=$(($i+1))
+        echo | tee -a $output_file
+    done
+    numastat | tee -a $output_file
 
-	echo "load data"
-	echo $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads 
-	$YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads > /dev/null
-	sleep 2
-
-	echo "OUTPUT: memory $(($ms*2)) node 2" | tee -a $output_file
-echo "*********************" | tee -a $output_file
-	echo $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads
-	$YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads  \
-		| grep -A 50 "OVERALL" \
-		| grep -v "TOTAL_GC" \
-		|tee -a $output_file
-echo "*********************" | tee -a $output_file
-
-	create_redis_cluster $(($ms*2)) $cpus 1
-
-	echo "load data"
-	echo $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads 
-	$YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads > /dev/null
-	sleep 2
-
-	echo "OUTPUT: memory $(($ms*2)) node 1" | tee -a $output_file
-echo "*********************" | tee -a $output_file
-	echo $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads
-	$YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads  \
-		| grep -A 50 "OVERALL" \
-		| grep -v "TOTAL_GC" \
-		| tee -a $output_file
-echo "*********************" | tee -a $output_file
-
-
+    echo "\n*********Node $node_id test end*******************\n" | tee -a $output_file
 done
+
+suffix=` date "+%m-%d-%H-%M"`
+log_dir=/home/fan/cxl/ycsb/logs/
+cat output_file | grep numa_hit
+mv $output_file $log_dir/redis-output-$suffix.log

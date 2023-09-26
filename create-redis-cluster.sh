@@ -4,6 +4,7 @@ msize=$1
 swap_f=5
 mswap_size=$(($msize*$swap_f))
 cpus=$2
+node_id=$4
 
 msize="$msize"m
 mswap_size=${mswap_size}m
@@ -42,7 +43,7 @@ cluster-node-timeout 5000
 cluster-announce-ip 172.28.0.1${port}
 cluster-announce-port 6379
 cluster-announce-bus-port 16379
-appendonly yes
+appendonly no
 EOF
 
 done
@@ -54,26 +55,31 @@ echo num_ins: $num_ins
 
 echo "Creating docker instances..."
 for port in $(seq 1 $num_ins); do
+
+echo "### docker run"
+	#--memory $msize\
+	#--memory-swap $mswap_size \
+	#--cpus $cpus \
 ports="$ports 172.28.0.1${port}:6379 "
-docker run -p 637${port}:6379 -p 1637${port}:16379 --name redis-${port} \
-	--memory $msize\
-	--cpus $cpus \
-	--memory-swap $mswap_size \
+numactl --membind=$node_id docker run --privileged -p 637${port}:6379 -p 1637${port}:16379 --name redis-${port} \
 	-v `pwd`/mydata/redis/node-${port}/data:/data \
 	-v `pwd`/mydata/redis/node-${port}/conf/redis.conf:/etc/redis/redis.conf \
 	-d --net redis-group --ip 172.28.0.1${port} redis:latest redis-server /etc/redis/redis.conf
 
-docker stats redis-$port --no-stream --format "{{ json . }}" | python3 -m json.tool
-echo "create redis-$port completed"
-echo
+#echo "### Show docker stats"
+#docker stats redis-$port --no-stream --format "{{ json . }}" | python3 -m json.tool
+#echo "create redis-$port completed"
+#echo
 done
 
 echo "Reset docker instances..."
 for port in $(seq 1 $num_ins); do
 sleep 2
 echo "reset cluster"
-docker exec -it redis-$port redis-cli flushall >/dev/null
-docker exec -it redis-$port redis-cli cluster reset>/dev/null
+docker exec --privileged -it redis-$port redis-cli flushall >/dev/null
+docker exec --privileged -it redis-$port redis-cli cluster reset>/dev/null
+echo "### check redis info for memory usage"
+docker exec --privileged -it redis-$port redis-cli info | grep human
 done
 
 echo 
@@ -88,7 +94,7 @@ if [ "$num_ins" -eq 1 ];then
 	ports="$ports $ports $ports"
 fi
 fi
-docker exec -it redis-1 redis-cli --cluster create $ports --cluster-replicas 0 --cluster-yes > /dev/null
+docker exec --privileged -it redis-1 redis-cli --cluster create $ports --cluster-replicas 0 --cluster-yes > /dev/null
 
 if [ "$?" != "0" ];then
 	echo "create cluster failed, exit"
