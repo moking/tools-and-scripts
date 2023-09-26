@@ -4,23 +4,22 @@ if [ "$YCSB_ROOT" == "" ];then
 	YCSB_ROOT=/home/fan/cxl/ycsb/YCSB
 fi
 if [ "$REDIS_ROOT" == "" ];then
-	REDIS_ROOT=/home/fan/cxl/ycsb
+	REDIS_ROOT=/home/fan/cxl/redis/redis-stable
 fi
 YCSB_BIN=$YCSB_ROOT/bin/ycsb.sh
-redis_sh=$REDIS_ROOT/create-redis-cluster.sh
 
 Error() {
 echo -e "Error: $@"
 }
 
 create_redis_cluster() {
- echo bash $redis_sh $@
- bash $redis_sh $@
+ echo start redis server with: redis-server $REDIS_ROOT/redis.conf, using memory on node $1
+ numactl --membind=$1 redis-server $REDIS_ROOT/redis.conf &
 }
 
 help() {
 	echo -e "Help info:"
-	echo -e "  $0 memsize_M num_cpus num_docker_ins [rm]"
+	echo -e "  $0 workload threads num_record num_req node_id"
 }
 
 gen_workload() {
@@ -44,11 +43,6 @@ fi
 if [ ! -f $YCSB_BIN ] ;then
 	Error "$YCSB_BIN not found"
 fi
-
-if [ ! -f $redis_sh ] ;then
-	Error "$redis_sh not found"
-fi
-
 
 msizes='100 200 500 1000'
 cpus=16
@@ -80,7 +74,7 @@ if [ `echo $1 | grep -c workload` -gt 0 ];then
         node_id=$6
     fi
 else
-	Error "\n   usage: $0 workload recordcount operationcount distribution"
+    help
 	exit
 fi
 
@@ -91,52 +85,44 @@ echo > $output_file
 msizes=5000
 ms=0
 
-for node_id in 2; do
+for node_id in 0 1 2; do
 	gen_workload $YCSB_ROOT/workloads/$workload $recordcount $operationcount $dist >$workload_file
-    #echo "workload: "
     cat $workload_file
 
-	create_redis_cluster $ms $cpus $num_ins $node_id
+	create_redis_cluster $node_id
 
     echo "*********Node $node_id: workload $workload test start*****************\n" | tee -a $output_file 
     cat $workload_file | tee -a $output_file 
     echo "\n********Before test************" | tee -a $output_file 
-    i=1
-    while [ $i -le $num_ins ];do 
-        docker exec -it redis-$i redis-cli info | grep human | tee -a $output_file
-        i=$(($i+1))
-        echo | tee -a $output_file
-    done
     numastat | tee -a $output_file
     numactl -H | tee -a $output_file
 
-	echo "load data"
-	echo numactl --membind=$node_id $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads 
-	numactl --membind=$node_id $YCSB_BIN load redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads > /dev/null
+	echo "Load data"
+	echo numactl --membind=$node_id $YCSB_BIN load redis -s -P $workload_file -p "redis.host=127.0.0.1" -p "redis.port=6379" -threads $threads 
+	numactl --membind=$node_id $YCSB_BIN load redis -s -P $workload_file -p "redis.host=127.0.0.1" -p "redis.port=6379"  -threads $threads > /dev/null
 	sleep 5
 
 
 echo -e "\n*********************\n" | tee -a $output_file
-	echo numactl --membind=$node_id $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads
-	numactl --membind=$node_id $YCSB_BIN run redis -s -P $workload_file -p "redis.host=172.28.0.11" -p "redis.port=6379" -p "redis.cluster=true" -threads $threads \
+	echo numactl --membind=$node_id $YCSB_BIN run redis -s -P $workload_file -p "redis.host=127.0.0.1" -p "redis.port=6379" -threads $threads
+	numactl --membind=$node_id $YCSB_BIN run redis -s -P $workload_file -p "redis.host=127.0.0.1" -p "redis.port=6379" -threads $threads \
 		| grep -A 50 "OVERALL" \
 		| grep -v "TOTAL_GC" \
 		| tee -a $output_file
 
     echo "\n********After test************" | tee -a $output_file 
-    i=1
-    while [ $i -le $num_ins ];do 
-        docker exec -it redis-$i redis-cli info | grep human | tee -a $output_file
-        i=$(($i+1))
-        echo | tee -a $output_file
-    done
     numastat | tee -a $output_file
     numactl -H | tee -a $output_file
 
     echo -e "\n*********Node $node_id test end*******************\n" | tee -a $output_file
+    redis-cli -h 127.0.0.1 flushall
+    redis-cli -h 127.0.0.1 cluster reset 
+    pkill -9 redis-server
+    rm -f /tmp/dump.rdb
+    sleep 5
 done
 
 suffix=` date "+%m-%d-%H-%M"`
 log_dir=/home/fan/cxl/ycsb/logs/
 cat $output_file | grep numa_hit
-mv $output_file $log_dir/redis-output-$suffix.log
+mv $output_file $log_dir/native-redis-output-$suffix.log
