@@ -90,8 +90,9 @@ while cnt < num_record:
     cnt=cnt+1
     i=i+1
 
-print("Info: check patches in %s\n"%path)
+print("check patches in %s\n"%path)
 print("Check pull log at %s:\n"%log_file)
 cmd='cat %s | grep "\t:\n\t"'%log_file
 os.system(cmd)
 print("")
+print("check patches in %s/\n"%path)
