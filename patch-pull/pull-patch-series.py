@@ -65,16 +65,17 @@ while cnt < num_record:
         print("Not collected: ", title, url)
         cnt=cnt+1
         i=i+1
-        continue
-    patch = result.group(1)
-    try:
-        idx = int(patch.split()[-1].split("/")[0])
-    except ValueError:
-        idx=0
-    if '/' in patch and idx > 0:
-        #print("skip: %s"%titles[i]);
-        i+=1;
-        continue;
+        # continue
+    else:
+        patch = result.group(1)
+        try:
+            idx = int(patch.split()[-1].split("/")[0])
+        except ValueError:
+            idx=0
+        if '/' in patch and idx > 0:
+            #print("skip: %s"%titles[i]);
+            i+=1;
+            continue;
 
     info="%s \t:\n\t %s"%(title, url)
     logger.info(info)
