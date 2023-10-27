@@ -49,24 +49,24 @@ urls = [tag['href'] for tag in tags if "@" in tag['href'] ]
 titles = [tag.string for tag in tags if "@" in tag['href'] ]
 
 if os.path.isdir(path):
-    print("Directory %s exists, skip creating"%path)
+    print("Directory %s exists, skip creating\n"%path)
 else:
-    print("Creating directory: %s"%path)
+    print("Creating directory: %s\n"%path)
     cmd = "mkdir -p %s"%path
     os.system(cmd)
 
 cnt=0
 i=0
+print("### Pulling patches ... ###\n")
 while cnt < num_record:
     url=urls[i]
     title=titles[i]
     result = re.search('\[(.*?)\]', title)
-    if result is None:
-        print("Not collected: ", title, url)
-        cnt=cnt+1
-        i=i+1
+    if result is not None:
+        # print("Not collected: ", title, url)
+        # cnt=cnt+1
+        # i=i+1
         # continue
-    else:
         patch = result.group(1)
         try:
             idx = int(patch.split()[-1].split("/")[0])
@@ -77,23 +77,22 @@ while cnt < num_record:
             i+=1;
             continue;
 
-    info="%s \t:\n\t %s"%(title, url)
-    logger.info(info)
-
     url=url.split("/")
-    print("Pulling messages:\n"+
-          "\tid: %s\n\t\t%s"%(url[0], titles[i]))
+    # print("Pulling messages:\n"+
+          # "\tid: %s\n\t\t%s"%(url[0], titles[i]))
+    info="%d: %s ==> %s"%(cnt, title, url[0])
+    logger.info(info)
     cmd = "b4 mbox %s -o %s"%(url[0],path)
     print(cmd)
     os.system(cmd)
-    print("***")
 
     cnt=cnt+1
     i=i+1
+print("### Pulling patches completed ###\n")
 
 print("check patches in %s\n"%path)
 print("Check pull log at %s:\n"%log_file)
-cmd='cat %s | grep "\t:\n\t"'%log_file
+cmd='cat %s | grep "==>"'%log_file
 os.system(cmd)
 print("")
 print("check patches in %s/\n"%path)
