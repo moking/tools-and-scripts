@@ -25,16 +25,35 @@ LAST_ROOT=os.environ.get("LAST_ROOT", "")
 
 parser = argparse.ArgumentParser(description='A tool help open patch mbox file with mutt quickly')
 parser.add_argument('-d','--dir', help='patch directory', required=False, default="/tmp/patches")
-parser.add_argument('-k','--key', help='keyword to search', required=True)
+parser.add_argument('-k','--key', help='keyword to search', required=False, default="")
 parser.add_argument('-L','--log', help='log file to extract mbox info', required=False, default="/tmp/patch-pull.log")
 
 
 args = vars(parser.parse_args())
 
-dire=args['dir']
-pfile = dire+"/"+args['key']+"*"
+key = args['key']
+log=args["log"]
+log_entries=[]
+if os.path.exists(log):
+    cmd_str="cat %s | grep \"==>\""%log
+    rs=sh_cmd(cmd_str)
+    print("Patch info:")
+    print(rs)
+    log_entries =rs.split("\n")
+else:
+    print("Warning: no log file found")
+print("")
+if not args["key"]:
+    index=input("Choose one file to open:")
+    if not index.isdigit() or int(index) >= len(log_entries):
+        print("Input a number smaller than %d to choose"%len(log_entries))
+        exit(1)
+    key = log_entries[int(index)].split("==>")[1].strip()
 
-cmd_str="find %s -name %s*"%(dire, args['key'])
+dire=args['dir']
+pfile = dire+"/"+key+"*"
+
+cmd_str="find %s -name %s*"%(dire, key)
 files=sh_cmd(cmd_str)
 
 files = files.split()
