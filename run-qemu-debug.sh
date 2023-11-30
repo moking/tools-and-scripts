@@ -2,9 +2,9 @@ QEMU=${1}
 KERNEL_PATH=${2}
 QEMU_IMG=${3}
 
-QEMU=/root/CXL/qemu/build/qemu-system-x86_64
+QEMU=/usr/local/bin/qemu-system-x86_64
 KERNEL_PATH=/root/CXL/linux/arch/x86/boot/bzImage
-KERNEL_PATH=/home/fan/kernel-fixes/arch/x86/boot/bzImage
+KERNEL_PATH=/home/fan/cxl/kernel-fixes/arch/x86/boot/bzImage
 QEMU_IMG=qemu-image.qcow2
 QEMU_IMG=qemu-image-latest.qcow2
 
@@ -22,7 +22,16 @@ RP1="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,
      -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
      -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
 
-
+RP1_DCD="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=512M \
+	 -object memory-backend-file,id=cxl-mem2,share=on,mem-path=/tmp/cxltest2.raw,size=2048M \
+	 -object memory-backend-file,id=cxl-dcd0,share=on,mem-path=/tmp/cxltest-dcd.raw,size=4096M \
+     -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
+     -object memory-backend-file,id=cxl-lsa3,share=on,mem-path=/tmp/lsa2.raw,size=512M \
+     -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
+     -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
+     -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
+     -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,nonvolatile-dc-memdev=cxl-dcd0,volatile-memdev=cxl-mem2,id=cxl-dcd0,num-dc-regions=2\
+     -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k"
 
 M2="-object memory-backend-file,id=cxl-mem1,share=on,mem-path=/tmp/cxltest.raw,size=512M \
     -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=512M \
