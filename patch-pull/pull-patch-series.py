@@ -34,7 +34,8 @@ if args['dir']:
     path = args['dir']
 
 log_file='/tmp/patch-pull.log'
-os.system('mv %s %s'%(log_file, log_file+".bak"))
+if os.path.exists(log_file):
+    os.system('mv %s %s'%(log_file, log_file+".bak"))
 fh=logging.FileHandler(log_file)
 fh.setLevel(logging.DEBUG)
 logger.addHandler(fh)
@@ -61,6 +62,9 @@ print("### Pulling patches ... ###\n")
 while cnt < num_record:
     url=urls[i]
     title=titles[i]
+    if not title:
+        print("warning: run out of titles: %s"%i)
+        break;
     result = re.search('\[(.*?)\]', title)
     if result is not None:
         # print("Not collected: ", title, url)

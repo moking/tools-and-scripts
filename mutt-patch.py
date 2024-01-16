@@ -41,7 +41,8 @@ if os.path.exists(log):
     print(rs)
     log_entries =rs.split("\n")
 else:
-    print("Warning: no log file found")
+    print("Warning: no log file found, try to pull patches with pull-patch script")
+    exit(1)
 print("")
 if not args["key"]:
     index=input("Choose one file to open:")
@@ -49,16 +50,17 @@ if not args["key"]:
         print("Input a number smaller than %d to choose"%len(log_entries))
         exit(1)
     key = log_entries[int(index)].split("==>")[1].strip()
+    key = key.replace("=", "*")
 
 dire=args['dir']
-pfile = dire+"/"+key+"*"
 
+print(key)
 cmd_str="find %s -name %s*"%(dire, key)
 files=sh_cmd(cmd_str)
 
 files = files.split()
 if len(files) == 0:
-    print("no file found")
+    print("no file found in %s"%dire)
     exit(1)
 
 file=files[0]
