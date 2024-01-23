@@ -19,9 +19,9 @@ def open_file(editor, file):
 logger=logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-QEMU_ROOT=os.environ["QEMU_ROOT"]
-KERNEL_ROOT=os.environ["KERNEL_ROOT"]
-LAST_ROOT=os.environ.get("LAST_ROOT", "")
+# QEMU_ROOT=os.environ["QEMU_ROOT"]
+# KERNEL_ROOT=os.environ["KERNEL_ROOT"]
+# LAST_ROOT=os.environ.get("LAST_ROOT", "")
 
 parser = argparse.ArgumentParser(description='A tool help open patch mbox file with mutt quickly')
 parser.add_argument('-d','--dir', help='patch directory', required=False, default="/tmp/patches")
