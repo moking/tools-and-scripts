@@ -48,6 +48,7 @@ tags = soup.find_all('a')
 # Extracting URLs from the attribute href in the <a> tags.
 urls = [tag['href'] for tag in tags if "@" in tag['href'] ]
 titles = [tag.string for tag in tags if "@" in tag['href'] ]
+print("%d titles found"%len(titles))
 
 if os.path.isdir(path):
     print("Directory %s exists, skip creating\n"%path)
@@ -63,8 +64,9 @@ while cnt < num_record:
     url=urls[i]
     title=titles[i]
     if not title:
-        print("warning: run out of titles: %s"%i)
-        break;
+        print("warning: titles[%s] is empty, skip..."%i)
+        i += 1
+        continue;
     result = re.search('\[(.*?)\]', title)
     if result is not None:
         # print("Not collected: ", title, url)

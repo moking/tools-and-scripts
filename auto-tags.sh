@@ -1,10 +1,11 @@
 #!/bin/bash
+dir=`pwd`
 
-set -e
-git ls-files | sed "/\.cpp$/!d" > cscope.files
-git ls-files | sed "/\.c$/!d" >> cscope.files
-git ls-files | sed "/\.h$/!d" >> cscope.files
-git ls-files | sed "/\.py$/!d" >> cscope.files
-git ls-files | sed "/\.pl$/!d" >> cscope.files
+if [ "$1" != "" ];then
+    dir=$1
+fi
+ctags -R --sort=1 --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ $dir
 
-ctags -L cscope.files
+ls $dir/tags -lth
+
+
