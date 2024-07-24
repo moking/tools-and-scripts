@@ -59,8 +59,12 @@ else:
 
 cnt=0
 i=0
+print("len of urls: %s"%len(urls))
+
 print("### Pulling patches ... ###\n")
 while cnt < num_record:
+    if i >= len(urls):
+        break;
     url=urls[i]
     title=titles[i]
     if not title:
