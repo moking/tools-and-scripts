@@ -71,7 +71,7 @@ while cnt < num_record:
         print("warning: titles[%s] is empty, skip..."%i)
         i += 1
         continue;
-    result = re.search('\[(.*?)\]', title)
+    result = re.search("\\[(.*?)\\]", title)
     if result is not None:
         # print("Not collected: ", title, url)
         # cnt=cnt+1
