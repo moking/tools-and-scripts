@@ -14,7 +14,7 @@ def sh_cmd(cmd):
 
 def open_file(editor, file):
     subprocess.call([editor,'-f',  file])
-    text=open(file, 'w+').read()
+    text=open(file, 'r').read()
 
 logger=logging.getLogger()
 logger.setLevel(logging.DEBUG)
