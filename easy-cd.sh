@@ -11,23 +11,24 @@ add_to_hist()
     fi
 
     path=$1
+    #echo "Try to add $path to history"
     if [ -d "$path" ];then
         found=`cat $hist | grep -w -c "$path"`
         if [ $found -eq 0 ];then
             last_idx=`tail -1 $hist | awk -F: '{print $1}'`
             idx=$((last_idx+1))
-            echo "$idx: $path" >> $hist
+            echo "$idx:$path" >> $hist
         fi
     fi
 }
 
 if [ "$target" != "" ];then
-    add_to_hist $target
+    add_to_hist `realpath $target`
     cd $target
 else
     if [ ! -f $hist ]; then
         touch $hist
-        echo "1: $pwd" >> $hist
+        echo "1:$pwd" >> $hist
     else
         cat $hist
         echo -n "Choose dir to go to: "
@@ -37,7 +38,7 @@ else
         if [ "$line" != "" ]; then
             dir=`echo "$line" | awk -F: '{print $2}'`
             echo dir: $dir
-            if [ "$dir" == "" ];then
+            if [ -z "$dir" ];then
                 echo "Wrong input, exit"
             else
                 add_to_hist $pwd
