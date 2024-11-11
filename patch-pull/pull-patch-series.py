@@ -13,21 +13,30 @@ logger.setLevel(logging.DEBUG)
 
 
 parser = argparse.ArgumentParser(description='A tool helping pull patches')
-parser.add_argument('-u','--url', help='url to pull', required=False)
-parser.add_argument('-n','--num', help='number of records to pull', required=False)
-parser.add_argument('-d','--dir', help='directory to store pathes', required=False)
+parser.add_argument('-U','--url', help='url to pull', required=False)
+parser.add_argument('-N','--num', help='number of records to pull', required=False)
+parser.add_argument('-O','--dir', help='directory to store pathes', required=False)
+parser.add_argument('-K','--key', help='sender key to search', required=False)
+parser.add_argument('-C','--cpt', help='kernel component for url (like cxl, mm)', required=False)
 
 args = vars(parser.parse_args())
 
 if args['url']:
     url = args['url']
 else:
-    url = 'https://lore.kernel.org/linux-cxl/'
+    if args["cpt"]:
+        url = 'https://lore.kernel.org/linux-%s/'%args['cpt']
+    else:
+        url = 'https://lore.kernel.org/linux-cxl/'
 
 if args['num']:
     num_record = int(args['num'])
 else:
     num_record=5
+
+key = ""
+if args['key']:
+    key = args['key']
 
 path="/tmp/patches"
 if args['dir']:
@@ -102,7 +111,10 @@ print("### Pulling patches completed ###\n")
 
 print("check patches in %s\n"%path)
 print("Check pull log at %s:\n"%log_file)
-cmd='cat %s | grep "==>"'%log_file
+if key:
+    cmd='cat %s | grep "==>" | grep -i %s'%(log_file, key)
+else:
+    cmd='cat %s | grep "==>"'%log_file
 os.system(cmd)
 print("")
 print("check patches in %s/\n"%path)
