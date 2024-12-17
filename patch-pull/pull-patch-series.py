@@ -52,12 +52,35 @@ logger.addHandler(fh)
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
-# Extracting all the <a> tags into a list.
-tags = soup.find_all('a')
-# Extracting URLs from the attribute href in the <a> tags.
-urls = [tag['href'] for tag in tags if "@" in tag['href'] ]
-titles = [tag.string for tag in tags if "@" in tag['href'] ]
-print("%d titles found"%len(titles))
+def process_pre(pre):
+    patches = []
+    last = None
+    for e in pre:
+        if e.name == "a":
+            last = e
+        elif isinstance(e, str) and e.strip():
+            if "messages" in e.strip():
+                patches += [last]
+        elif e.name == "pre":
+            patches += process_pre(e)
+    return patches
+
+last = None
+patches = []
+for element in soup.body.descendants:
+    if element.name == "pre":
+        continue
+        patches += process_pre(element)
+        print(len(patches))
+    elif element.name == "a":
+        last = element
+    elif isinstance(element, str) and element.strip():
+        if "messages" in element.strip():
+            patches += [last]
+
+for p in patches:
+    print(p.text,":", p.get("href"))
+print("Total %d patch series found"%len(patches))
 
 if os.path.isdir(path):
     print("Directory %s exists, skip creating\n"%path)
@@ -68,37 +91,17 @@ else:
 
 cnt=0
 i=0
-print("len of urls: %s"%len(urls))
+#print("len of urls: %s"%len(urls))
 
 print("### Pulling patches ... ###\n")
 while cnt < num_record:
-    if i >= len(urls):
-        break;
-    url=urls[i]
-    title=titles[i]
-    if not title:
+    url=patches[i].get("href")
+    title=patches[i].text
+    if not title or not url:
         print("warning: titles[%s] is empty, skip..."%i)
         i += 1
         continue;
-    result = re.search("\\[(.*?)\\]", title)
-    if result is not None:
-        # print("Not collected: ", title, url)
-        # cnt=cnt+1
-        # i=i+1
-        # continue
-        patch = result.group(1)
-        try:
-            idx = int(patch.split()[-1].split("/")[0])
-        except ValueError:
-            idx=0
-        if '/' in patch and idx > 0:
-            #print("skip: %s"%titles[i]);
-            i+=1;
-            continue;
-
     url=url.split("/")
-    # print("Pulling messages:\n"+
-          # "\tid: %s\n\t\t%s"%(url[0], titles[i]))
     info="%d: %s ==> %s"%(cnt, title, url[0])
     logger.info(info)
     cmd = "b4 mbox %s -o %s"%(url[0],path)
