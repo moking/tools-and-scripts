@@ -95,6 +95,9 @@ i=0
 
 print("### Pulling patches ... ###\n")
 while cnt < num_record:
+    if i >= len(patches):
+        print("Waring: not enough patches retrieved!")
+        break;
     url=patches[i].get("href")
     title=patches[i].text
     if not title or not url:
