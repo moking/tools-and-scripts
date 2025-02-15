@@ -77,9 +77,12 @@ for element in soup.body.descendants:
     elif isinstance(element, str) and element.strip():
         if "messages" in element.strip():
             patches += [last]
+        else:
+            if not re.match(r"^\[.*\d+/\d+ PATCH\]", element.strip()) and re.match(r"^\[.* PATCH\]", element.strip()):
+                patches += [last]
 
-for p in patches:
-    print(p.text,":", p.get("href"))
+#for p in patches:
+    #print(p.text,":", p.get("href"))
 print("Total %d patch series found"%len(patches))
 
 if os.path.isdir(path):
