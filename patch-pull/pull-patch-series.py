@@ -71,12 +71,13 @@ for element in soup.body.descendants:
     if element.name == "pre":
         continue
         patches += process_pre(element)
-        print(len(patches))
+        #print(len(patches))
     elif element.name == "a":
         last = element
     elif isinstance(element, str) and element.strip():
         if "messages" in element.strip():
-            patches += [last]
+            if last not in patches:
+                patches += [last]
         else:
             if not re.match(r"^\[.*\d+/\d+ PATCH\]", element.strip()) and re.match(r"^\[.* PATCH\]", element.strip()):
                 patches += [last]

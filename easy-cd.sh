@@ -4,10 +4,21 @@ hist=/tmp/cd-hist
 pwd=`pwd`
 target="$1"
 
+create_hist()
+{
+    hist=$1
+    touch $hist
+    echo "1:`realpath ~/cxl/linux-fixes`" >> $hist
+    echo "2:`realpath ~/cxl/cxl-test-tool`" >> $hist
+    echo "3:`realpath ~/cxl/qemu`" >> $hist
+    echo "4:`realpath ~/cxl/jic/qemu`" >> $hist
+}
+
+
 add_to_hist() 
 {
     if [ ! -f $hist ]; then
-        touch $hist
+        create_hist $hist
     fi
 
     path=$1
@@ -27,8 +38,7 @@ if [ "$target" != "" ];then
     cd $target
 else
     if [ ! -f $hist ]; then
-        touch $hist
-        echo "1:$pwd" >> $hist
+        add_to_hist $pwd
     else
         cat $hist
         echo -n "Choose dir to go to: "
