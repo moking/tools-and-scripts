@@ -1,0 +1,234 @@
+grep . -r /sys/firmware/acpi/interrupts
+/sys/firmware/acpi/interrupts/gpe9B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB3:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe23:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe51:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeAF:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe1F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA3:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeDD:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe13:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD1:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe41:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeCD:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe03:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC1:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpe98:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe31:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6B:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeBD:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB1:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe88:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe21:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeAD:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe1D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA1:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/ff_pwr_btn:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe78:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeDB:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe11:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe68:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeCB:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe01:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe96:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe58:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeBB:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe86:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/ff_rt_clk:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpeD8:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/ff_pmtimer:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe48:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeAB:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe1B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe76:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC8:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe38:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0B:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe66:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB8:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe94:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe28:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe56:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA8:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe84:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe18:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD6:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe46:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe74:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe08:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC6:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe36:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe64:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe9E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB6:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe92:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe26:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/error:       0
+/sys/firmware/acpi/interrupts/gpe54:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8E:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpeA6:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe82:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe16:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/sci: 3017367
+/sys/firmware/acpi/interrupts/gpeD4:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe44:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe72:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe06:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeC4:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe34:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6E:      71  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe62:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe9C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB4:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe90:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe24:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe52:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8C:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpeA4:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe80:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeDE:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe14:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD2:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe42:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe70:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeCE:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe04:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC2:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpe99:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe32:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe60:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeBE:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe9A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB2:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe89:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe22:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe50:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeAE:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8A:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe1E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA2:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe79:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeDC:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe12:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD0:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe40:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0E:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe69:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeCC:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe02:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC0:       0         disabled     unmasked
+/sys/firmware/acpi/interrupts/gpe97:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe30:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe59:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeBC:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2C:       0     STS disabled     unmasked
+/sys/firmware/acpi/interrupts/gpeB0:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe87:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe20:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD9:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe49:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeAC:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe1C:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA0:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe77:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeDA:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe10:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC9:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe39:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0C:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe67:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeCA:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe00:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB9:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe_all: 3017370
+/sys/firmware/acpi/interrupts/gpe95:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe29:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe57:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeBA:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe2A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA9:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe85:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe19:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD7:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe47:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeAA:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe1A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe75:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe09:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC7:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe37:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe0A:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe65:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe9F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB7:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe93:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe27:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe55:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA7:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe83:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe17:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD5:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe45:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe73:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/ff_gbl_lock:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe07:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC5:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/sci_not:       1
+/sys/firmware/acpi/interrupts/gpe35:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6F: 3017299  EN STS enabled      unmasked
+/sys/firmware/acpi/interrupts/gpe63:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe9D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeB5:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe91:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe25:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe5F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe53:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe8D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeA5:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe81:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeDF:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe15:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe4F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeD3:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe43:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe7D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe71:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeCF:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe05:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe3F:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpeC3:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe33:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe6D:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/ff_slp_btn:       0         invalid      unmasked
+/sys/firmware/acpi/interrupts/gpe61:       0  EN     enabled      unmasked
+/sys/firmware/acpi/interrupts/gpeBF:       0         invalid      unmasked
