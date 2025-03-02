@@ -8,10 +8,14 @@ create_hist()
 {
     hist=$1
     touch $hist
-    echo "1:`realpath ~/cxl/linux-fixes`" >> $hist
-    echo "2:`realpath ~/cxl/cxl-test-tool`" >> $hist
-    echo "3:`realpath ~/cxl/qemu`" >> $hist
-    echo "4:`realpath ~/cxl/jic/qemu`" >> $hist
+    i=0
+    for dir in ~/cxl ~/git; do
+        items=`find $dir -maxdepth 1 -type d`
+        for item in $items; do
+            echo $i:$item >> $hist
+            i=$(($i+1))
+        done
+    done
 }
 
 
@@ -39,22 +43,20 @@ if [ "$target" != "" ];then
 else
     if [ ! -f $hist ]; then
         add_to_hist $pwd
-    else
-        cat $hist
-        echo -n "Choose dir to go to: "
-        read choice
-        key="^$choice:"
-        line=`cat $hist | grep "$key"`
-        if [ "$line" != "" ]; then
-            dir=`echo "$line" | awk -F: '{print $2}'`
-            echo dir: $dir
-            if [ -z "$dir" ];then
-                echo "Wrong input, exit"
-            else
-                add_to_hist $pwd
-                echo cd $dir
-                cd $dir
-            fi
+    fi
+    cat $hist
+    echo -n "Choose dir to go to: "
+    read choice
+    key="^$choice:"
+    line=`cat $hist | grep "$key"`
+    if [ "$line" != "" ]; then
+        dir=`echo "$line" | awk -F: '{print $2}'`
+        if [ -z "$dir" ];then
+            echo "Wrong input, exit"
+        else
+            add_to_hist $pwd
+            echo cd $dir
+            cd $dir
         fi
     fi
 fi
