@@ -1,0 +1,25 @@
+diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
+index f6c1b063775a..e4865ec5aebe 100644
+--- a/scripts/gdb/linux/symbols.py
++++ b/scripts/gdb/linux/symbols.py
+@@ -95,10 +95,15 @@ lx-symbols command."""
+         except gdb.error:
+             return str(module_addr)
+
+-        attrs = sect_attrs['attrs']
+-        section_name_to_address = {
+-            attrs[n]['battr']['attr']['name'].string(): attrs[n]['address']
+-            for n in range(int(sect_attrs['nsections']))}
++        section_name_to_address = {}
++        gattr = sect_attrs['grp']['bin_attrs']
++        battr = gattr.dereference()
++        while battr:
++            sec_name = battr['attr']['name'].string()
++            sec_addr = battr['private']
++            section_name_to_address[sec_name] = sec_addr
++            gattr = gattr + 1
++            battr = gattr.dereference()
+
+         textaddr = section_name_to_address.get(".text", module_addr)
+         args = []
+
