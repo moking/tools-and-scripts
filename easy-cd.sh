@@ -26,12 +26,13 @@ add_to_hist()
     fi
 
     path=$1
-    #echo "Try to add $path to history"
+    # echo "Try to add $path to history"
     if [ -d "$path" ];then
-        found=`cat $hist | grep -w -c "$path"`
+        found=`cat $hist | grep -x -c ".*$path"`
         if [ $found -eq 0 ];then
             last_idx=`tail -1 $hist | awk -F: '{print $1}'`
             idx=$((last_idx+1))
+            echo "add $path to list"
             echo "$idx:$path" >> $hist
         fi
     fi
