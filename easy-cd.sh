@@ -10,7 +10,7 @@ create_hist()
     touch $hist
     i=0
     for dir in ~/cxl ~/git; do
-        items=`find $dir -maxdepth 1 -type d`
+        items=`find $dir -maxdepth 1 -type d | sort`
         for item in $items; do
             echo $i:$item >> $hist
             i=$(($i+1))
