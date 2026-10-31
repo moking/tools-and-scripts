@@ -1,0 +1,4 @@
+# Python dependencies of md-editor.py:  pip install -r md-editor-requirements.txt
+PySide6>=6.2     # Qt GUI; the PyPI wheel includes QtWebEngine for the preview
+markdown>=3.4
+pygments>=2.11   # optional: syntax highlighting in code blocks
